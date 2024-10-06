@@ -36,7 +36,7 @@ const config: Config = {
       animation: {
         "spin-cw-3s": "spin 12s linear infinite",
         "spin-ccw-6s": "spin 15s linear infinite reverse",
-        "spin-ccw-9s": "spin 15s linear infinite",
+        "spin-ccw-9s": "spin 28s linear infinite",
       }
     },
   },
