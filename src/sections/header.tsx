@@ -6,9 +6,10 @@ export default function Header() {
     return (
         <header className='py-4 border-b border-white/15 md:border-none sticky top-0 z-10'>
             <div className="container">
-                <div className='flex justify-between items-center md:border border-white/15 md:p-2.5 rounded-xl max-w-2xl mx-auto backdrop-blur'>
+                {/*removed - md:border border-white/15 */}
+                <div className='flex justify-between items-center md:p-2.5 rounded-xl max-w-2xl shadow-lg mx-auto backdrop-blur-xl'>
                     <div>
-                        <div className='w-10 h-10 rounded-lg inline-flex justify-center border items-center border-white/15'>
+                        <div className='w-10 h-10 rounded-lg inline-flex justify-center  items-center border border-white/15'>
                             <LogoIcon className="h-[32px] w-[32px]" />
                         </div>
                     </div>

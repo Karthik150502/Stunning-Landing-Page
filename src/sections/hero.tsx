@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@/app/components/Button'
 import starsbg from "@/assets/stars.png";
+import "./styles.css"
 export default function Hero() {
     return (
         <section className='h-[492px] md:h-[800px] flex items-center overflow-hidden relative [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]' style={{
@@ -17,11 +18,13 @@ export default function Hero() {
             {/* End Planet */}
 
             {/* Start ring-1 */}
-            <div className="absolute w-[344px] h-[344px] md:w-[580px] md:h-[580px]  border rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 ">
-                <div className="w-2 h-2 absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
-                <div className="w-5 h-5 absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 border rounded-full border-white inline-flex items-center justify-center">
-                    <div className='h-2 w-2 bg-white rounded-full'></div>
+            <div className="reverse absolute w-[344px] h-[344px] md:w-[580px] md:h-[580px] border rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
+                <div className="w-full h-full rounded-full animate-spin-cw-3s">
+                    <div className="w-2 h-2 absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
+                    <div className="w-2 h-2 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
+                    <div className="w-5 h-5 absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 border rounded-full border-white inline-flex items-center justify-center">
+                        <div className='h-2 w-2 bg-white rounded-full'></div>
+                    </div>
                 </div>
             </div>
             {/* End ring-1 */}
@@ -33,8 +36,10 @@ export default function Hero() {
 
             {/* Start ring-3 */}
             <div className="absolute h-[544px] w-[544px] md:w-[980px] md:h-[980px] rounded-full border border-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20">
-                <div className="w-2 h-2 absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
+                <div className="w-full h-full rounded-full animate-spin-ccw-9s">
+                    <div className="w-2 h-2 absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
+                    <div className="w-2 h-2 absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
+                </div>
             </div>
             {/* End ring-3 */}
 
