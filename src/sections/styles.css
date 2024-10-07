@@ -1,18 +1,18 @@
-.spin-it {
-    animation-duration: 3s;
+.demo {
+    animation-name: slide;
+    animation-duration: 5s;
     animation-timing-function: linear;
-    animation-name: spin;
     animation-iteration-count: infinite;
-
 }
 
 
-@keyframes spin {
-    from {
-        rotate: 0deg;
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
     }
 
-    to {
-        rotate: 360deg;
+    100% {
+        transform: translateX(100%);
     }
+
 }

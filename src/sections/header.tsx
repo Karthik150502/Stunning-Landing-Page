@@ -4,10 +4,11 @@ import { Menu } from 'lucide-react';
 import Button from '@/app/components/Button';
 export default function Header() {
     return (
-        <header className='py-4 border-b border-white/15 md:border-none sticky top-0 z-10'>
+        <header className='py-4 border-b border-white/15 md:border-none sticky top-0 z-10 backdrop-blur-xl md:backdrop-blur-none'>
+            {/* <div className="absolute inset-0 backdrop-blur-xl -z-10"></div> */}
             <div className="container">
                 {/*removed - md:border border-white/15 */}
-                <div className='flex justify-between items-center md:p-2.5 rounded-xl max-w-2xl shadow-lg mx-auto backdrop-blur-xl'>
+                <div className='flex justify-between items-center md:p-2.5 rounded-xl max-w-2xl md:shadow-lg mx-auto md:backdrop-blur-xl'>
                     <div>
                         <div className='w-10 h-10 rounded-lg inline-flex justify-center  items-center border border-white/15'>
                             <LogoIcon className="h-[32px] w-[32px]" />
