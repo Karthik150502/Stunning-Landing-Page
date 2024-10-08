@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 import avatar1 from "@/assets/avatar-1.png";
@@ -5,7 +6,7 @@ import avatar2 from "@/assets/avatar-2.png";
 import avatar3 from "@/assets/avatar-3.png";
 import avatar4 from "@/assets/avatar-4.png";
 import Image from 'next/image';
-
+import { motion } from 'framer-motion';
 
 const TESTIMONIALS = [
     {
@@ -42,7 +43,20 @@ export default function Testimonials() {
                 <h2 className='text-5xl md:text-6xl font-medium text-center tracking-tighter'>Beyond Expectations</h2>
                 <p className='text-white/70 text-center text-lg md:text-xl max-w-sm mx-auto tracking-tight mt-3'>Hear it from some of the top represnatives of the of our top clients</p>
                 <div className='overflow-hidden mt-10 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]'>
-                    <div className="flex gap-5">
+                    <motion.div
+
+                        initial={{
+                            translateX: "-50%"
+                        }}
+                        animate={{
+                            translateX: "0"
+                        }}
+                        transition={{
+                            repeat: Infinity,
+                            duration: 30,
+                            ease: "linear"
+                        }}
+                        className="flex gap-5">
 
                         {
                             TESTIMONIALS.map((testimonial) => {
@@ -62,7 +76,7 @@ export default function Testimonials() {
                                 </div>
                             })
                         }
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

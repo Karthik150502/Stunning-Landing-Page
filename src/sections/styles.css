@@ -1,18 +1,3 @@
-.demo {
-    animation-name: slide;
-    animation-duration: 5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-
-@keyframes slide {
-    0% {
-        transform: translateX(0%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
-
+back {
+    color: #f344ff;
 }
