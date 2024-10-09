@@ -1,7 +1,8 @@
 'use client'
-import React from 'react'
-import { DotLottiePlayer } from '@dotlottie/react-player';
+import React, { useEffect, useRef } from 'react'
+import { DotLottieCommonPlayer, DotLottiePlayer } from '@dotlottie/react-player';
 import productImage from "@/assets/product-image.png"
+import { animate, motion, useMotionTemplate, useMotionValue, ValueAnimationTransition } from 'framer-motion';
 const TABS = [
     {
         icon: "/assets/lottie/vroom.lottie",
@@ -30,6 +31,53 @@ const TABS = [
 ];
 
 
+
+const FeatureTab = ({ title, icon, isNew }: { title: string, icon: string, isNew: boolean }) => {
+
+    const dotLottieRef = useRef<DotLottieCommonPlayer>(null);
+
+    const xPerc = useMotionValue(0);
+    const yPerc = useMotionValue(0);
+
+    const maskRadialGradient = useMotionTemplate`radial-gradient(80px 80px at ${xPerc}% ${yPerc}%,black,transparent)`;
+
+
+
+    useEffect(() => {
+        const options: ValueAnimationTransition = {
+            duration: 12, repeat: Infinity, ease: "linear", repeatType: "loop"
+        }
+
+        animate(xPerc, [0, 100, 100, 0, 0], options);
+        animate(yPerc, [0, 100, 100, 0, 0], options);
+    }, [])
+
+    const handleTabHover = () => {
+        if (dotLottieRef.current) {
+            dotLottieRef.current.seek(0);
+            dotLottieRef.current.play();
+        }
+    }
+
+
+    return <div onMouseEnter={handleTabHover} className='lg:flex-1 border border-white/15 flex p-2.5 rounded-xl gap-2.5 items-center relative'>
+        <motion.div
+            style={{
+                maskImage: maskRadialGradient
+            }}
+            className='absolute inset-0 -m-px rounded-xl border border-[#A369FF] [mask-image:]'></motion.div>
+        <div className="border border-white/15 h-12 w-12 rounded-lg inline-flex items-center justify-center">
+            <DotLottiePlayer ref={dotLottieRef} src={icon} className='h-5 w-5' autoplay />
+        </div>
+        <div className='font-medium'>{title}</div>
+        {
+            isNew && <div className='text-xs rounded-full px-2 py-0.5 bg-[#8c44ff] text-black font-semibold hover:bg-[#9a5dfd] transition-colors'>new</div>
+        }
+    </div>
+}
+
+
+
 export default function Features() {
     return (
         <section className='py-20 md:py-24'>
@@ -39,15 +87,7 @@ export default function Features() {
                 <div className='mt-10 flex lg:flex-row flex-col gap-3'>
                     {
                         TABS.map((tab) => {
-                            return <div key={tab.title} className='lg:flex-1 border border-white/15 flex p-2.5 rounded-xl gap-2.5 items-center'>
-                                <div className="border border-white/15 h-12 w-12 rounded-lg inline-flex items-center justify-center">
-                                    <DotLottiePlayer src={tab.icon} className='h-5 w-5' autoplay />
-                                </div>
-                                <div className='font-medium'>{tab.title}</div>
-                                {
-                                    tab.isNew && <div className='text-xs rounded-full px-2 py-0.5 bg-[#8c44ff] text-black font-semibold'>new</div>
-                                }
-                            </div>
+                            return <FeatureTab key={tab.title} {...tab} />
                         })
                     }
                 </div>
