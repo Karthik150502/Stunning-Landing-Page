@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
 import { DotLottieCommonPlayer, DotLottiePlayer } from '@dotlottie/react-player';
 import productImage from "@/assets/product-image.png"
 import { animate, motion, useMotionTemplate, useMotionValue, ValueAnimationTransition } from 'framer-motion';
@@ -32,40 +32,53 @@ const TABS = [
 
 
 
-const FeatureTab = ({ title, icon, isNew }: { title: string, icon: string, isNew: boolean }) => {
+const FeatureTab = ({ title, icon, isNew, onClick, selected }: { title: string, icon: string, isNew: boolean, selected: boolean } & ComponentPropsWithoutRef<'div'>) => {
 
+
+    const tabRef = useRef<HTMLDivElement>(null);
     const dotLottieRef = useRef<DotLottieCommonPlayer>(null);
 
     const xPerc = useMotionValue(0);
     const yPerc = useMotionValue(0);
 
-    const maskRadialGradient = useMotionTemplate`radial-gradient(80px 80px at ${xPerc}% ${yPerc}%,black,transparent)`;
+    const maskedRadialGradient = useMotionTemplate`radial-gradient(80px 80px at ${xPerc}% ${yPerc}%,black,transparent)`;
 
 
 
     useEffect(() => {
+        if (!tabRef.current || !selected) return;
+
+        xPerc.set(0);
+        yPerc.set(0);
+        const { height, width } = tabRef.current.getBoundingClientRect();
+        const perimeter = 2 * (height + width);
+
+        const times = [0,
+            width / perimeter,
+            (width + height) / perimeter,
+            (width * 2 + height) / perimeter, 1];
+
         const options: ValueAnimationTransition = {
-            duration: 12, repeat: Infinity, ease: "linear", repeatType: "loop"
+            times, duration: 4, repeat: Infinity, ease: "linear", repeatType: "loop"
         }
 
         animate(xPerc, [0, 100, 100, 0, 0], options);
-        animate(yPerc, [0, 100, 100, 0, 0], options);
-    }, [])
+        animate(yPerc, [0, 0, 100, 100, 0], options);
+    }, [selected])
 
     const handleTabHover = () => {
-        if (dotLottieRef.current) {
-            dotLottieRef.current.seek(0);
-            dotLottieRef.current.play();
-        }
+        if (!dotLottieRef.current) return;
+        dotLottieRef.current.seek(0);
+        dotLottieRef.current.play();
     }
 
 
-    return <div onMouseEnter={handleTabHover} className='lg:flex-1 border border-white/15 flex p-2.5 rounded-xl gap-2.5 items-center relative'>
-        <motion.div
+    return <div onMouseEnter={handleTabHover} onClick={onClick} ref={tabRef} className='lg:flex-1 border border-white/15 flex p-2.5 rounded-xl gap-2.5 items-center relative cursor-pointer'>
+        {selected && <motion.div
             style={{
-                maskImage: maskRadialGradient
+                maskImage: maskedRadialGradient
             }}
-            className='absolute inset-0 -m-px rounded-xl border border-[#A369FF] [mask-image:]'></motion.div>
+            className='absolute inset-0 -m-px rounded-xl border border-[#A369FF] [mask-image:]'></motion.div>}
         <div className="border border-white/15 h-12 w-12 rounded-lg inline-flex items-center justify-center">
             <DotLottiePlayer ref={dotLottieRef} src={icon} className='h-5 w-5' autoplay />
         </div>
@@ -79,6 +92,31 @@ const FeatureTab = ({ title, icon, isNew }: { title: string, icon: string, isNew
 
 
 export default function Features() {
+
+    const [selectedTab, setSelectedTab] = useState<number>(0)
+
+    const backgroundPosX = useMotionValue(TABS[selectedTab].backgroundPositionX);
+    const backgroundPosY = useMotionValue(TABS[selectedTab].backgroundPositionY);
+    const backgroundSizeX = useMotionValue(TABS[selectedTab].backgroundSizeX);
+
+
+    const backgroundSize = useMotionTemplate`${backgroundSizeX}% auto `
+    const backgroundPosition = useMotionTemplate`${backgroundPosX}% ${backgroundPosY}%`
+
+
+
+    const handleSelect = (i: number) => {
+        setSelectedTab(i);
+        const options: ValueAnimationTransition = {
+            duration: 1,
+            ease: "easeInOut"
+        }
+        animate(backgroundSizeX, [backgroundSizeX.get(), 100, TABS[i].backgroundSizeX], options);
+
+        animate(backgroundPosX, [backgroundPosX.get(), TABS[i].backgroundPositionX], options)
+        animate(backgroundPosY, [backgroundPosY.get(), TABS[i].backgroundPositionY], options)
+    }
+
     return (
         <section className='py-20 md:py-24'>
             <div className="container">
@@ -86,15 +124,21 @@ export default function Features() {
                 <p className='text-white/70 text-center text-lg md:text-xl max-w-2xl mx-auto tracking-tight mt-3'>From small organizations, to large enterprises, our AI tool has been a complete game changer.</p>
                 <div className='mt-10 flex lg:flex-row flex-col gap-3'>
                     {
-                        TABS.map((tab) => {
-                            return <FeatureTab key={tab.title} {...tab} />
+                        TABS.map((tab, i) => {
+                            return <FeatureTab
+                                selected={selectedTab === i}
+                                onClick={() => {
+                                    handleSelect(i)
+                                }} key={tab.title} {...tab} />
                         })
                     }
                 </div>
                 <div className='border border-white/20 p-2.5 rounded-xl mt-3'>
-                    <div className='aspect-video bg-cover border-white/20 rounded-lg' style={{
+                    <motion.div className='aspect-video bg-cover border-white/20 rounded-lg' style={{
+                        backgroundPosition,
+                        backgroundSize,
                         backgroundImage: `url(${productImage.src})`
-                    }}></div>
+                    }}></motion.div>
                 </div>
             </div>
         </section>

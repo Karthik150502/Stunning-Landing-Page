@@ -23,7 +23,7 @@ export default function Header() {
                         </nav>
                     </div>
                     <div className='flex gap-4 items-center'>
-                        <Button >Join Waitlist</Button>
+                        <Button>Join Waitlist</Button>
                         <Menu className='md:hidden' />
                     </div>
                 </div>
